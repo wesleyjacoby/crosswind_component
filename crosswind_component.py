@@ -3,9 +3,15 @@ init()
 from colorama import Fore, Back, Style
 import math
 
-# Function to check if the runway is dry or wet
+
 def dry_or_wet():
-    runway_condition = str(input("Runway Dry? (Y/N): ")).lower().strip()
+    """
+    Asks the user if the runway is dry
+
+    Returns:
+        True or False (bool) - depends on the users input
+    """
+    runway_condition = input("Runway Dry? (Y/N): ").lower().strip()
     try:
         if runway_condition == 'y':
             return True
