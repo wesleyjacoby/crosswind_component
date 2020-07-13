@@ -12,12 +12,6 @@ angle = 0.0
 
 
 def dry_or_wet():
-    """
-    Asks the user if the runway is dry
-
-    Returns:
-        True or False (bool) - depends on the users input
-    """
     runway_condition = input("Runway Dry? (Y/N): ").lower().strip()
     try:
         if runway_condition == 'y':
