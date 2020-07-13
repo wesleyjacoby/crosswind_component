@@ -12,6 +12,12 @@ angle = 0.0
 
 
 def dry_or_wet():
+    """
+    Asks the user if the runway is dry.
+
+    Returns:
+        (bool) True or False - depends on the users input.
+    """
     runway_condition = input("Runway Dry? (Y/N): ").lower().strip()
     try:
         if runway_condition == 'y':
@@ -28,21 +34,53 @@ def dry_or_wet():
         
 
 def parameters():
+    """
+    Asks the user for the runway heading, wind direction and wind speed.
+
+    Returns:
+        (int) runway_heading - The runway heading.
+        (int) wind_direction - The wind direction.
+        (int) wind_speed - The speed, or strength, of the wind.
+    """
     runway_heading = int(input('Runway Heading: '))
     wind_direction = int(input('Wind Direction: '))
     wind_speed = int(input('Wind Speed: '))
+
     return runway_heading, wind_direction, wind_speed
 
 
-# Function to work out difference between runway heading and wind direction
-def get_difference(runway_heading, wind_direction):
-	angle = (wind_direction - runway_heading) % 360.0
-	if angle >= 180.0:
-		angle -= 360.0
-	return angle
+def get_difference(wind_direction, runway_heading):
+    """
+    Calculates the difference between the runway heading and the wind direction.
+
+    Args:
+        (int) runway_heading - The runway heading.
+        (int) wind_direction - The wind direction.
+
+    Returns:
+        (float) angle - The difference between the runway heading and wind direction.
+    """
+    angle = (wind_direction - runway_heading) % 360.0
+
+    if angle >= 180.0:
+        angle -= 360.0
+
+    return angle
 
 
 def get_components(runway_heading, wind_direction, wind_speed):
+    """
+    Calculates the crosswind component and headwind component.
+
+    Args:
+        (int) runway_heading - The runway heading.
+        (int) wind_direction - The wind direction.
+        (int) wind_speed - The speed, or strength, of the wind.
+
+    Returns:
+        (int) crosswind_component - The crosswind component.
+        (int) headwind_component - The headwind component.
+    """
     # Getting the angle between runway heading and wind direction
     wind_angle = get_difference(runway_heading, wind_direction)
 
@@ -50,10 +88,19 @@ def get_components(runway_heading, wind_direction, wind_speed):
     crosswind_component_raw = wind_speed * math.sin(math.radians(wind_angle))
     crosswind_component = abs(round(crosswind_component_raw))
     headwind_component = wind_speed * math.cos(math.radians(wind_angle))
+
     return crosswind_component, headwind_component
 
 
 def user_interface(runway_condition, crosswind_component, headwind_component):
+    """
+    Compares runway condition with the crosswind and headwind components and tells the user if they are within, or out of, limits for their aircraft type.
+
+    Args:
+        (bool) True or False - Is the runway dry or wet.
+        (int) crosswind_component - The crosswind component.
+        (int) headwind_component - The headwind component.
+    """
     # Checks runway condition and converts negative value to positive and rounds value up to whole number
     if runway_condition == True and crosswind_component < max_dry_xwind or runway_condition == False and crosswind_component < max_wet_xwind:
         print("Crosswind Component:", crosswind_component, "kts -", end = " ")
