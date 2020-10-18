@@ -1,7 +1,6 @@
-from colorama import init
-init()
-from colorama import Fore, Back, Style
 import math
+from colorama import init, Fore, Back, Style
+init()
 
 
 # Global variables for B737-800 aircraft type
@@ -31,7 +30,7 @@ def dry_or_wet():
         print("Please enter valid inputs")
         print(error)
         return dry_or_wet()
-        
+
 
 def parameters():
     """
@@ -94,30 +93,32 @@ def get_components(runway_heading, wind_direction, wind_speed):
 
 def user_interface(runway_condition, crosswind_component, headwind_component):
     """
-    Compares runway condition with the crosswind and headwind components and tells the user if they are within, or out of, limits for their aircraft type.
+    Compares runway condition with the crosswind and headwind components
+    and tells the user if they are within, or out of, limits for their aircraft type.
 
     Args:
         (bool) True or False - Is the runway dry or wet.
         (int) crosswind_component - The crosswind component.
         (int) headwind_component - The headwind component.
     """
-    # Checks runway condition and converts negative value to positive and rounds value up to whole number
+    # Checks runway condition and converts negative value to positive
+    # and rounds value up to whole number
     if runway_condition == True and crosswind_component < max_dry_xwind or runway_condition == False and crosswind_component < max_wet_xwind:
-        print("Crosswind Component:", crosswind_component, "kts -", end = " ")
+        print("Crosswind Component:", crosswind_component, "kts -", end=" ")
         print(Fore.GREEN + Back.BLACK + Style.BRIGHT + "WITHIN LIMITS.")
         print(Style.RESET_ALL)
     else:
-        print("Crosswind Component:", crosswind_component, "kts -", end = " ")
+        print("Crosswind Component:", crosswind_component, "kts -", end=" ")
         print(Fore.RED + Back.BLACK + Style.BRIGHT + "OUT OF LIMITS.")
         print(Style.RESET_ALL)
 
     # Checks for headwind or tailwind and prints result
     if headwind_component < max_tailwind:
-        print("Tailwind Component:", abs(round(headwind_component)), "kts -", end = " ")
+        print("Tailwind Component:", abs(round(headwind_component)), "kts -", end=" ")
         print(Fore.RED + Back.BLACK + Style.BRIGHT + "OUT OF LIMITS.")
         print(Style.RESET_ALL)
     elif headwind_component < 0:
-        print("Tailwind Component:", abs(round(headwind_component)), "kts -", end = " ")
+        print("Tailwind Component:", abs(round(headwind_component)), "kts -", end=" ")
         print(Fore.GREEN + Back.BLACK + Style.BRIGHT + "WITHIN LIMITS.")
         print(Style.RESET_ALL)
     else:
@@ -130,7 +131,8 @@ def main():
         runway_heading, wind_direction, wind_speed = parameters()
 
         get_difference(runway_heading, wind_direction)
-        crosswind_component, headwind_component = get_components(runway_heading, wind_direction, wind_speed)
+        crosswind_component, headwind_component = get_components(
+            runway_heading, wind_direction, wind_speed)
         user_interface(runway_condition, crosswind_component, headwind_component)
 
         restart = input('Would you like to restart (Y/N): ').strip().lower()
